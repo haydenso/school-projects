@@ -92,6 +92,12 @@ while True:
         trip_class.add_student(name, paid_status)
 
     print(trip_class)
+    if trip_class.predicted_cost > trip_class.total_cost:
+        print("The school has made a profit")
+    elif trip_class.predicted_cost < trip_class.total_cost:
+        print("The school has lost money")
+    else:
+        print("0 profits or losts were made")
     break
 
 
