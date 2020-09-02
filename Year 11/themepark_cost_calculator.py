@@ -38,9 +38,10 @@ class Overall:
     #TASK 1
     def calcCPC(self):  #CPC = Cost Per Student
         self.freeticket(self.num_students)
-        self.cost_per_student = math.ceil((self.coach_price + ((self.num_students - self.num_freeticket) * self.ticket_price)) / self.num_students) #math.ceil to round up all the time
-        print(f"The current cost per student is ${self.cost_per_student}")
-        return self.cost_per_student
+        self.predicted_cost = (self.coach_price + ((self.num_students - self.num_freeticket) * self.ticket_price))
+        self.cost_per_student = math.ceil(self.predicted_cost / self.num_students) #math.ceil to round up all the time so money is not lost 
+        print(f"The predicted total cost is ${self.predicted_cost}, cost per student is ${self.cost_per_student} (rounded up)")
+        return self.cost_per_student, self.predicted_cost
 
     #TASK 1
     def freeticket(self, n):
@@ -69,25 +70,29 @@ class Overall:
     #TASK 3  
     def __str__(self):   #does all the calculations of prices   
         self.calc_price()
-        return f" {self.num_students} said they are going to the trip\n {self.num_paid} have paid\n You get {self.num_freeticket} free ticket\n Total cost is ${self.total_cost} (minus the cost of free tickets)"
+        return f"\n{self.num_students} was the initial number of students\n{self.num_paid} have paid\nYou get {self.num_freeticket} free ticket\nTotal overall cost is ${self.total_cost} (minus the cost of free tickets)\nThe predicted overall cost is ${self.predicted_cost}"
+
+while True:
+    trip_class = Overall()                   #initiate class
+    trip_class.inputNumStudents()
+    trip_class.calcCPC() 
+
+    count = 1
+
+    while count <= trip_class.num_students:
+        name = str(input(f"\nInput the firstname of student {count} (type END to end): "))   
+        count+=1
+        if name == "END":
+            break
+        paid_status = str(input("Paid (Y/N)? ")).lower()
+        if paid_status == "y":
+            paid_status = trip_class.paid_students
+        elif paid_status == "n":
+            paid_status = trip_class.unpaid_students
+        trip_class.add_student(name, paid_status)
+
+    print(trip_class)
+    break
 
 
-trip_class = Overall()
-trip_class.inputNumStudents()
 
-trip_class.add_student("John", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-trip_class.add_student("Hayden", trip_class.paid_students)
-
-trip_class.add_student("Kiran", trip_class.unpaid_students)
-
-trip_class.calcCPC()
-print(trip_class)
