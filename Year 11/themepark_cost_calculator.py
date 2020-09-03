@@ -17,6 +17,7 @@ class Overall:
         self.paid_students = []
         self.unpaid_students = []
         self.num_freeticket = 0
+        self.num_paid = len(self.paid_students) 
     #TASK 1
     def inputNumStudents(self):    # simple input validation
         while True:
@@ -42,7 +43,7 @@ class Overall:
     #TASK 1
     def freeticket(self, n):
         try:
-            self.num_freeticket = round(n/10)
+            self.num_freeticket = math.floor(n/10)    # math.floor to always round down to make sure no extra tickets
             return self.num_freeticket
         except:
             print("No free tickets")  #returns the default value of 0
@@ -55,22 +56,21 @@ class Overall:
         return list_name
     #TASK 3
     def calc_price(self):
-        self.num_paid = len(self.paid_students) 
         self.freeticket(self.num_paid) # calculates number of free tickets
         self.discount = self.num_freeticket * self.ticket_price 
         self.total_cost = int(self.num_paid) * int(self.ticket_price) + self.coach_price - self.discount
         return self.total_cost
     #TASK 3
     def print_paid_students(self):
-        print(f"\nThese students have paid: {', '.join(self.paid_students)}")
+        print(f"\n{len(self.paid_students)} students have paid: {', '.join(self.paid_students)}")
     def print_unpaid_students(self):
-        print(f"These studenrs have not paid {', '.join(self.unpaid_students)}")
+        print(f"{len(self.unpaid_students)} students have not paid {', '.join(self.unpaid_students)}")
     #TASK 3  
     def __str__(self):   #returns the details from calculations 
         self.calc_price()
         self.print_paid_students() # print list of paid students
         self.print_unpaid_students() # print list of unpaid students
-        return f"\n{self.num_students} was the initial number of students\n{self.num_paid} have paid\nYou get {self.num_freeticket} free ticket\nTotal overall cost is ${self.total_cost} (minus the cost of free tickets)\nThe predicted overall cost is ${self.predicted_cost}"
+        return f"\n{self.num_students} was the initial number of students\nYou get {self.num_freeticket} free ticket\nTotal overall cost is ${self.total_cost} (minus the cost of free tickets)\nThe predicted overall cost is ${self.predicted_cost}"
 
 while True:
     trip_class = Overall()                   #initiate class
@@ -78,7 +78,7 @@ while True:
     trip_class.calcCPC() 
     count = 1
     
-    while count <= 45:
+    while count <= 45:  # 45 and not num_students (predicted number) so that more students can come (any number as long as under 45)
         name = str(input(f"\nInput the firstname of student {count} (type END to end): "))   
         count+=1
         if name == "END":
@@ -98,9 +98,9 @@ while True:
 
     print(trip_class)  #__str__ method returns a string of the details
     if trip_class.predicted_cost > trip_class.total_cost:
-        print(f"The school has made a lost of {trip_class.predicted_cost -  trip_class.total_cost}")
+        print(f"The school has made a lost of ${trip_class.predicted_cost -  trip_class.total_cost}")
     elif trip_class.predicted_cost < trip_class.total_cost:
-        print(f"The school has made a profit {trip_class.total_cost -  trip_class.predicted_cost}")
+        print(f"The school has made a profit ${trip_class.total_cost -  trip_class.predicted_cost}")
     else:
         print("0 profits or losts were made")
     break
