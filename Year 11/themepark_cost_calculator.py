@@ -37,7 +37,7 @@ class Overall:
         self.freeticket(self.num_students)
         self.predicted_cost = (self.coach_price + ((self.num_students - self.num_freeticket) * self.ticket_price))
         self.cost_per_student = math.ceil(self.predicted_cost / self.num_students)     #math.ceil to round up
-        print(f"The predicted total cost is ${self.predicted_cost}, cost per student is ${self.cost_per_student} (rounded up)")
+        print(f"The predicted total cost is ${self.predicted_cost} (cost of freeticket subtracted), cost per student is ${self.cost_per_student} (rounded up), {self.num_freeticket} free tickets")
         return self.cost_per_student, self.predicted_cost
     #TASK 1
     def freeticket(self, n):
@@ -60,34 +60,47 @@ class Overall:
         self.discount = self.num_freeticket * self.ticket_price 
         self.total_cost = int(self.num_paid) * int(self.ticket_price) + self.coach_price - self.discount
         return self.total_cost
+    #TASK 3
+    def print_paid_students(self):
+        print(f"\nThese students have paid: {', '.join(self.paid_students)}")
+    def print_unpaid_students(self):
+        print(f"These studenrs have not paid {', '.join(self.unpaid_students)}")
     #TASK 3  
     def __str__(self):   #returns the details from calculations 
         self.calc_price()
+        self.print_paid_students() # print list of paid students
+        self.print_unpaid_students() # print list of unpaid students
         return f"\n{self.num_students} was the initial number of students\n{self.num_paid} have paid\nYou get {self.num_freeticket} free ticket\nTotal overall cost is ${self.total_cost} (minus the cost of free tickets)\nThe predicted overall cost is ${self.predicted_cost}"
 
 while True:
     trip_class = Overall()                   #initiate class
-    trip_class.inputNumStudents()
+    trip_class.inputNumStudents()            # ask for user inputs
     trip_class.calcCPC() 
     count = 1
     
-    while count <= trip_class.num_students: # up to the number originally predicted
+    while count <= 45:
         name = str(input(f"\nInput the firstname of student {count} (type END to end): "))   
         count+=1
         if name == "END":
             break
-        paid_status = str(input("Paid (Y/N)? ")).lower()
-        if paid_status == "y":
-            paid_status = trip_class.paid_students
-        elif paid_status == "n":
-            paid_status = trip_class.unpaid_students
+        while True:
+            paid_status = str(input("Paid (Y/N)? ")).lower()
+            if paid_status == "y":
+                paid_status = trip_class.paid_students
+                break
+            elif paid_status == "n":
+                paid_status = trip_class.unpaid_students
+                break
+            else:
+                print("Invalid option, type Y or N")
+                continue
         trip_class.add_student(name, paid_status)
 
-    print(trip_class)
+    print(trip_class)  #__str__ method returns a string of the details
     if trip_class.predicted_cost > trip_class.total_cost:
-        print("The school has made a profit")
+        print(f"The school has made a lost of {trip_class.predicted_cost -  trip_class.total_cost}")
     elif trip_class.predicted_cost < trip_class.total_cost:
-        print("The school has lost money")
+        print(f"The school has made a profit {trip_class.total_cost -  trip_class.predicted_cost}")
     else:
         print("0 profits or losts were made")
     break
