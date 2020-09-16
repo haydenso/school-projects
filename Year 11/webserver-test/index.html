@@ -1,0 +1,15 @@
+<html>
+    <h1>Hello world!</h1>
+    <hr>
+        <p>Last time, you asked me to remember:</p>
+        <p>{{data}}</p>
+    <hr>
+    <form action="/remember" enctype="multipart/form-data">
+        <p>Would you like me to remember something for you?</p>
+        <div>
+            <textarea rows=10 cols=40 name="remember"></textarea>
+        </div>
+        <input type="submit">
+    </form>
+    <p>Most impressive, this is!</p>
+</html>
