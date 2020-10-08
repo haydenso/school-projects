@@ -28,24 +28,31 @@ def rand_code():
 def user_order(list_of_dict):
     print(f"\nYour Order Number: {rand_code()}")
     while True:
-        id_of_order = str(input("\nWhat is the order code (input 0 to end): "))
+        id_of_order = str(input("\nWhat is the item code (input 0 to end): "))
         if id_of_order == "0":
             break
         else:
-            quantity = input("How much of it do you want? ")
+            quantity = int(input("How much of it do you want? "))
             for item in list_of_dict:
                 if item['code'] == id_of_order:
-                    prices.append(float(item['price']))
-                    items_ordered.append(item['name'])
+                    prices.append(float(item['price'] * float(quantity)))
+                    for n in range (0,quantity):
+                        items_ordered.append(item['name'])
                     total = sum(prices)
-            print(f"Your current total is ${total}")
-            print(f"You have ordered {', '.join(items_ordered)}")
+            print(f"Your current total is ${total}") 
+            with_quantity = dict(Counter(items_ordered))
+            for v, k in with_quantity.items():
+                print(f"You have ordered {k} {v}")
     return total
     
 def find_profit(t):
-    percentage = float(input("Input the percentage of the takings that are profts")) % 100
+    option = input("Do you want to use default percentage of 10 as the profit marign? (enter 0 if yes)")
+    if option == "0":
+        percentage = 0.1
+    else:
+        percentage = float(input("Input the percentage of the takings that are profts")) / 100
     profit = percentage * t
-    print(f"The daily takings is ${t}, the profit is {round(profit)} and the percentage is {percentage}")
+    print(f"The daily takings is ${t}, the profit is ${round(profit, 1)} and the profit margin is {percentage}%")
 
 if __name__ == "__main__":
     print("\nWeclcome here is the menu:\n")
