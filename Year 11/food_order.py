@@ -40,7 +40,7 @@ def user_order(list_of_dict):
                         items_ordered.append(item['name'])
                     total = sum(prices)
             print(f"Your current total is ${total}") 
-            with_quantity = dict(Counter(items_ordered))
+            with_quantity = dict(Counter(items_ordered))         # dictionary of quantity of each product with Counter() function 
             for v, k in with_quantity.items():
                 print(f"You have ordered {k} {v}")
     return total
@@ -51,8 +51,7 @@ def find_profit(t):
         percentage = 0.1
     else:
         percentage = float(input("Input the percentage of the takings that are profts")) / 100
-    profit = percentage * t
-    print(f"The daily takings is ${t}, the profit is ${round(profit, 1)} and the profit margin is {percentage}%")
+    print(f"The daily takings is ${t}, the profit is ${round(percentage * t, 1)} and the profit margin is {percentage}%")
 
 if __name__ == "__main__":
     print("\nWeclcome here is the menu:\n")
