@@ -33,13 +33,11 @@ while len(names) <= 45:
     else:
         names.append(name)
 
-    loop = True
-
-    while loop:
+    while True:
         payment = input("Enter if they have payed: ")
         if payment == "Yes" or payment == "No":
             payments.append(payment)
-            loop = False
+            break
         else:
             print("Please enter either Yes or No.")
             continue
