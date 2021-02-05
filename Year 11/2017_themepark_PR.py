@@ -24,7 +24,6 @@ print(f"Each student has to pay ${cost_per_student}, there are {free_tickets} fr
 
 names = []
 payments = []
-paid = 0
 
 while len(names) <= 45:
     name = input("Enter the name of the student taking part (enter X to stop): ")
