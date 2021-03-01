@@ -84,6 +84,8 @@ def task_3():
         total_revenue += journey[3]
         count += 1
 
+    
+
     print(f"A total of ${total_revenue} has been made")
     print(f"There are {total_passengers} today")
     print(f"This journey had the most {highest_passenger}")
