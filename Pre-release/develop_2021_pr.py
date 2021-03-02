@@ -50,8 +50,6 @@ def task_2():
             journey_up[time_up+1][2] += 1
             journey_up[time_down+1][2] += 1
 
-            if journey[1] == journey[2]:
-                journey[4] = "Closed"
             
 
 

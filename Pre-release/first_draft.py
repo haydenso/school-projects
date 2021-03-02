@@ -1,5 +1,5 @@
 # TASK 1 - Start of Day 
-# status default value is "open" and is update to "Closed" when steats == tally
+# status default value is "open" and is update to "Closed" when seats == tally
 up_times = ["9:00", "11:00", "13:00", "15:00"]
 up_seats = [480, 480, 480, 480]
 up_tally = [0, 0, 0, 0]
@@ -13,7 +13,7 @@ down_revenue = [0, 0, 0, 0]
 down_status = ["open", "open", "open", "open"]
 
 ticket_cost = 25
-# $25 each journey because when we go up we might have enough people for a free ticket, however we come down different times
+# $25 each journey (and not $50 round trip) because when we go up we might have enough people for a free ticket, however we come down different times
 
 def screen_display(times, seats):
     for i in range(0,4):
@@ -25,14 +25,14 @@ print("\n Journey Down")
 screen_display(down_times, down_seats)
 
 # TASK 2 - Purchasing tickets
-def check_seats(times, status, tally, session):
-        if status == "Closed":
-            print(f"{times} journey seat allocated")
-            tally += 1
-            session += 1
+def check_seats(time, times, status, tally, session):
+        if status != "Closed":
+            print(f"\n{times} journey seat allocated")
+            tally[time-1] += 1
+            session[time-1] += 1
             return True
         else:
-            print(f"Sorry {times} full already")
+            print(f"\nSorry {times} full already")
             return False
 
 def calc_revenue(session, revenue):
@@ -41,7 +41,7 @@ def calc_revenue(session, revenue):
         num_tickets_to_buy = session[i] - num_free_tickets
         # $25 being the ticket
         cost = num_tickets_to_buy * ticket_cost
-        up_revenue[i] += cost
+        revenue[i] += cost
 
 # While there are still spaces for going up 
 while up_status != ["Closed", "Closed", "Closed", "Closed"]:
@@ -51,7 +51,7 @@ while up_status != ["Closed", "Closed", "Closed", "Closed"]:
 
     # Ask for how many passengers 1-80 inclusive
     while True:
-        num = int(input("Number of students going: "))
+        num = int(input("\nNumber of students going: "))
         if 1 <= num <= 80:
             break
         else:
@@ -61,14 +61,14 @@ while up_status != ["Closed", "Closed", "Closed", "Closed"]:
     for i in range(1,num+1):
         while True:
             # Ask for the journey number as listed from task 1 (e.g input 1 is 9:00)
-            time_up = int(input(f"Which journey down is passenger {i} going on? "))
+            time_up = int(input(f"\nWhich journey down is passenger {i} going on? "))
             time_down = int(input(f"Which journey down is passenger {i} going on? "))
 
-            if check_seats(up_times[time_up-1], up_status[time_up-1], up_tally[time_up-1], up_session[time_up-1]) and check_seats(down_times[time_down-1], down_status[time_up-1], down_tally[time_up-1], down_session[time_up-1]):
+            if check_seats(time_up, up_times, up_status, up_tally, up_session) and check_seats(time_down, down_times, down_status, down_tally, down_session):
                 break
             else:
                 continue
-
+        
         for i in range(0,4):
             if up_tally[i] == up_seats:
                 up_status[i] = "Closed"
@@ -81,6 +81,9 @@ while up_status != ["Closed", "Closed", "Closed", "Closed"]:
     calc_revenue(down_session, down_revenue)
     session_total_cost = sum(up_revenue) + sum(down_revenue)
     print(f"This session's total is ${session_total_cost}")
+
+    up_session = [0, 0, 0, 0] 
+    down_session = [0, 0, 0, 0]
 
 # TASK 3
 def task_3_display(times, tally, revenue):
@@ -107,3 +110,5 @@ if highest_passenger == max(up_tally):
 elif highest_passenger == max(down_tally):
     index = up_tally.index(highest_passenger)
     print(f"{down_times[index]} was the journey with most passengers")
+else:
+    print(f"Two or more journeys had the same number of passengers")
