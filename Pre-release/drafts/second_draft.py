@@ -19,15 +19,15 @@ def screen_display(times, seats):
     for i in range(0,4):
         print(f"{i+1}. {times[i]} - {seats[i]} seats")
     
-print("\n Journey Up")
+print("\nJourney Up")
 screen_display(up_times, up_seats)
-print("\n Journey Down")
+print("\nJourney Down")
 screen_display(down_times, down_seats)
 
 # TASK 2 - Purchasing tickets
 def check_seats(time, times, status, tally, session):
         if status != "Closed":
-            print(f"\n{times} journey seat allocated")
+            print(f"\n{times[time-1]} journey seat allocated")
             tally[time-1] += 1
             session[time-1] += 1
             return True
@@ -35,7 +35,7 @@ def check_seats(time, times, status, tally, session):
             print(f"\nSorry {times} full already")
             return False
 
-def calc_revenue(session, revenue):
+def calc_revenue(session, revenue): 
     for i in range(0,4):
         num_free_tickets = int(session[i]) // 10
         num_tickets_to_buy = session[i] - num_free_tickets
@@ -51,11 +51,13 @@ while up_status != ["Closed", "Closed", "Closed", "Closed"]:
 
     # Ask for how many passengers 1-80 inclusive
     while True:
-        num = int(input("\nNumber of students going: "))
+        num = int(input("\nNumber of passengers going: "))
         if 1 <= num <= 80:
             break
         else:
             print("Invalid number of tickets (Must be between 1 and 80 inclusive)")
+    
+    # Ask how many going on each journey
 
     # Ask individually each passenger
     for i in range(1,num+1):
@@ -79,6 +81,7 @@ while up_status != ["Closed", "Closed", "Closed", "Closed"]:
     # There will be multiple sessions each day hence it is inaccurate to find number of free tickets based on the tally 
     calc_revenue(up_session, up_revenue)
     calc_revenue(down_session, down_revenue)
+    
     session_total_cost = sum(up_revenue) + sum(down_revenue)
     print(f"This session's total is ${session_total_cost}")
 
@@ -103,7 +106,8 @@ total_passengers = sum(up_tally) + sum(down_tally)
 print(f"There are {total_passengers} passengers today")
 
 # What if two journey have the same number of passenger tally, how do we determine the max?
-highest_passenger = max(up_highest, down_highest)
+highest_passenger = max(up_highest, down_highest) # returns the list with
+
 if highest_passenger == max(up_tally):
     index = up_tally.index(highest_passenger)
     print(f"{up_times[index]} was the journey with most passengers")
