@@ -14,10 +14,18 @@ ticket_cost = 25.0 #real/float - constant
 def screenDisplay():
     print("\nJourney Up")
     for i in range(0,4):
-        print(f"{i+1}. {up_times[i]} - {up_seats[i] - up_tally[i]} seats") # the up_seats - up_tally no longer works when it prints "closed" because TypeError
+        if up_seats[i] == up_tally[i]: # the up_seats - up_tally no longer works when if up_seats[i] is closed
+            seats = "Closed"
+        else:
+            seats = up_seats[i] - up_tally[i]
+        print(f"{i+1}. {up_times[i]} - {seats}") 
     print("\nJourney Down")
     for i in range(0,4):
-        print(f"{i+1}. {down_times[i]} - {down_seats[i] - down_tally[i]} seats")
+        if down_seats[i] == down_tally[i]:
+            seats = "Closed"
+        else:
+            seats = down_seats[i] - down_tally[i]
+        print(f"{i+1}. {down_times[i]} - {seats}")
 
 screenDisplay()
 
@@ -64,20 +72,11 @@ while up_times != ["Closed", "Closed", "Closed", "Closed"]:
             print("Sorry invalid response or not enough seats")
             continue
     
-    for i in range(0,4):
-        if up_seats[i] == up_tally[i]:
-            up_seats[i] = "Closed"
-        if down_seats[i] == down_tally[i]:
-            down_seats[i] = "Closed"
-    
     screenDisplay() 
-
     booking = input("\nCreate another booking (y/n)? ")
     # this is not completely validated, is it ok
     if booking.lower() == 'n':
         break
-    else:
-        continue
 
 # TASK 3
 print("\nJourney Up")
