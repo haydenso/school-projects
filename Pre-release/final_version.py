@@ -60,7 +60,7 @@ while up_times != up_tally:
             up_tally[up_index] += num_passengers
             calculate_revenue(up, num_passengers, up_revenue)
         else: 
-            print("Sorry invalid response or not enough seats")
+            print("Sorry invalid choice or not enough seats")
             continue
 
         down = input(f"Down Journey Time? ")
@@ -70,7 +70,7 @@ while up_times != up_tally:
             calculate_revenue(down, num_passengers, down_revenue)
             break
         else: 
-            print("Sorry invalid response or not enough seats")
+            print("Sorry invalid choice or not enough seats")
             continue
     
     screenDisplay() 
