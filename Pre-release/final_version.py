@@ -90,7 +90,7 @@ for i in range(0,4):
 total_revenue = sum(up_revenue) + sum(down_revenue)
 total_passengers = sum(up_tally) 
 # total passenger is the sum of up and down? or total number of unique passengers
-print(f"\n${total_revenue} total revenue, {int(total_passengers)} total passengers")
+print(f"\n${total_revenue} total revenue, {total_passengers} total passengers")
 
 if max(up_tally) > max(down_tally):
     index = up_tally.index(max(up_tally))
