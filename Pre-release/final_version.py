@@ -56,7 +56,7 @@ while up_times != up_tally:
     while True:
         up = input(f"\nUp Journey Time? ")
         up_index = int(up)-1
-        if up_index <= 3 and up_seats[up_index] != "Closed" and up_seats[up_index] - up_tally[up_index] >= num_passengers:
+        if up_index <= 3 and up_seats[up_index] - up_tally[up_index] >= num_passengers:
             up_tally[up_index] += num_passengers
             calculate_revenue(up, num_passengers, up_revenue)
         else: 
@@ -65,7 +65,7 @@ while up_times != up_tally:
 
         down = input(f"Down Journey Time? ")
         down_index = int(down) - 1 
-        if down_index <= 3 and down_seats[down_index] != "Closed" and down_seats[down_index] - down_tally[down_index] >= num_passengers:
+        if down_index <= 3 and down_seats[down_index] - down_tally[down_index] >= num_passengers:
             down_tally[down_index] += num_passengers
             calculate_revenue(down, num_passengers, down_revenue)
             break
