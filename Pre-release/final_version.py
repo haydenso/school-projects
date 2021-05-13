@@ -19,6 +19,7 @@ def screenDisplay():
         else:
             seats = up_seats[i] - up_tally[i]
         print(f"{i+1}. {up_times[i]} - {seats}") 
+        
     print("\nJourney Down")
     for i in range(0,4):
         if down_seats[i] == down_tally[i]:
@@ -48,7 +49,7 @@ def passengerCount_input():
             print("Invalid input, number must be in between 1 and 80")
 
 #NUMBER OF PASSENGERS GOING UP --> while there are still seats avaiable to go up
-while up_times != ["Closed", "Closed", "Closed", "Closed"]:
+while up_times != up_tally:
     
     num_passengers = passengerCount_input()
 
