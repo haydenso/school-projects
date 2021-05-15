@@ -42,6 +42,7 @@ while up_times != up_tally:
     while True:
         num_passengers = input("\nHow many passengers are going? ") 
         if num_passengers.isnumeric() and 0 < int(num_passengers) <= 80: # Type check == Int and Range check 0 < x <= 80
+            num_passengers = int(num_passengers)
             break
         else:
             print("Invalid input, number must be in between 1 and 80")
@@ -72,29 +73,28 @@ while up_times != up_tally:
         break
 
 # TASK 3
+total_passengers = 0
+max_passengers = up_tally[0]
+max_time = up_times[0]
+
 print("\nJourney Up")
 for i in range(0,4):
         print(f"{i+1}. {up_times[i]} - {up_tally[i]} passengers - ${up_revenue[i]} made")
+        total_passengers += up_tally[i] 
+        if up_tally[i] > max_passengers:
+            max_passengers = up_tally[i]
+            max_time = up_times[i]
+            
 print("\nJourney Down")
 for i in range(0,4):
         print(f"{i+1}. {down_times[i]} - {down_tally[i]} passengers - ${down_revenue[i]} made")
+        if down_tally[i] > max_passengers:
+            max_passengers = down_tally[i]
+            max_time = down_times[i]
 
 total_revenue = 0
 combined_revenue = up_revenue + down_revenue
 for i in combined_revenue:
     total_revenue += i
 
-total_passengers = 0
-max_passengers = up_tally[0]
-max_time = up_times[0]
-for i in up_tally:
-    total_passengers += i
-    if i > max_passengers:
-        max_passengers = up_tally[i]
-        max_time = up_times[i]
-for i in down_tally:
-    if i > max_passengers:
-        max_passengers = down_tally[i]
-        max_time = down_times[i]
-
-print(f"\n${total_revenue} total revenue, {total_passengers} total passengers,{max_time} had the most passengers, with {max_passengers}")
+print(f"\n${total_revenue} total revenue, {total_passengers} total passengers, {max_time} had the most passengers, with {max_passengers} passengers")
