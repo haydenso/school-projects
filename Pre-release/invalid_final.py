@@ -14,7 +14,7 @@ ticket_cost = 25.0 #real/float - constant
 def screenDisplay():
     print("\nJourney Up")
     for i in range(0,4):
-        if up_seats[i] == up_tally[i]: # the up_seats - up_tally no longer works when if up_seats[i] is closed
+        if up_seats[i] == up_tally[i]: 
             seats = "Closed"
         else:
             seats = up_seats[i] - up_tally[i]
@@ -34,24 +34,19 @@ screenDisplay()
 def calculate_revenue(journey, num, revenue):
     num_free_tickets = int(num) // 10
     num_tickets_to_buy = int(num) - num_free_tickets
-    cost = num_tickets_to_buy * ticket_cost
-    revenue[int(journey)-1] += cost
+    revenue[int(journey)-1] += num_tickets_to_buy * ticket_cost
     return revenue
-
-def passengerCount_input():
-    while True:
-        num_passengers = input("\nHow many passengers are going? ") 
-        # Type check == Int and Range check 0 < x <= 80
-        if num_passengers.isnumeric() and 0 < int(num_passengers) <= 80:
-            return int(num_passengers)
-            break
-        else:
-            print("Invalid input, number must be in between 1 and 80")
 
 #NUMBER OF PASSENGERS GOING UP --> while there are still seats avaiable to go up
 while up_times != up_tally:
     
-    num_passengers = passengerCount_input()
+    while True:
+        num_passengers = input("\nHow many passengers are going? ") 
+        # Type check == Int and Range check 0 < x <= 80
+        if num_passengers.isnumeric() and 0 < int(num_passengers) <= 80:
+            break
+        else:
+            print("Invalid input, number must be in between 1 and 80")
 
     while True:
         up = input(f"\nUp Journey Time? ")
@@ -87,11 +82,13 @@ print("\nJourney Down")
 for i in range(0,4):
         print(f"{i+1}. {down_times[i]} - {down_tally[i]} passengers - ${down_revenue[i]} made")
 
+# change sum function into manual function
 total_revenue = sum(up_revenue) + sum(down_revenue)
 total_passengers = sum(up_tally) 
 # total passenger is the sum of up and down? or total number of unique passengers
 print(f"\n${total_revenue} total revenue, {total_passengers} total passengers")
 
+# change max function into manual function 
 if max(up_tally) > max(down_tally):
     index = up_tally.index(max(up_tally))
     print(f"{up_times[index]} had the most passengers")
