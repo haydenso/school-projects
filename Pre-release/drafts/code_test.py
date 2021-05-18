@@ -1,5 +1,7 @@
 up = [4, 8]
 down = [8, 4]
 
-for x, y in up, down:
-    print(x, y)
+total=0
+for i in up:
+    total += i
+print(total)

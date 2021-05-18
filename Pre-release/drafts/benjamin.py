@@ -44,7 +44,11 @@ while run:
     print('Train No.', 'Time', 'No. seats', 'Revenue')
     for i in passengers:
         n += 1
-        print(f'train {n}', f'{trains[n-1]}:00', i, money[passengers.index(i)])
+        if i == 0:
+            count = "Closed"
+        else:
+            count = i
+        print(f'train {n}', f'{trains[n-1]}:00', count, money[passengers.index(i)])
 
 # Task 3
 total_revenue=0

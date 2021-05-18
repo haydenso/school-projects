@@ -1,7 +1,7 @@
 # TASK 1 - Start of Day 
 up_times = ["9:00", "11:00", "13:00", "15:00"]  #Array of strings - variable
-up_seats = [480, 480, 480, 480]   #Array of integers - variable
-up_tally = [0, 0, 0, 0]     #Array of integers - variable
+up_seats = [480, 480, 480, 480]     #Array of integers - variable
+up_tally = [0, 0, 0, 0]             #Array of integers - variable
 up_revenue = [0.0, 0.0, 0.0, 0.0]   #Array of real - variable
 
 down_times = ["10:00", "12:00", "14:00", "16:00"]
@@ -11,33 +11,26 @@ down_revenue = [0.0, 0.0, 0.0, 0.0]
 
 ticket_cost = 25.0 #real/float - constant
 
-def screenDisplay():
-    print("\nJourney Up")
+def screenDisplay(seats, tally, times):
     for i in range(0,4):
-        if up_seats[i] == up_tally[i]: 
-            seats = "Closed"
+        if seats[i] == tally[i]: 
+            available = "Closed"
         else:
-            seats = up_seats[i] - up_tally[i]
-        print(f"{i+1}. {up_times[i]} - {seats}") 
-        
-    print("\nJourney Down")
-    for i in range(0,4):
-        if down_seats[i] == down_tally[i]:
-            seats = "Closed"
-        else:
-            seats = down_seats[i] - down_tally[i]
-        print(f"{i+1}. {down_times[i]} - {seats}")
+            available = seats[i] - tally[i]
+        print(f"{i+1}. {up_times[i]} - {available}") 
 
-screenDisplay()
+print("\nJourney Up")
+screenDisplay(up_seats, up_tally, up_times)
+print("\nJourney Down")
+screenDisplay(down_seats, down_tally, down_times)
 
 # TASK 2 - Purchasing tickets
 def calculate_revenue(journey, num, revenue):
-    num_free_tickets = int(num) // 10
-    num_tickets_to_buy = int(num) - num_free_tickets
+    num_tickets_to_buy = int(num) - int(num) // 10 # total - free tickets
     revenue[int(journey)-1] += num_tickets_to_buy * ticket_cost
     return revenue
 
-while up_times != up_tally:
+while up_seats != up_tally:
     
     while True:
         num_passengers = input("\nHow many passengers are going? ") 
@@ -49,26 +42,30 @@ while up_times != up_tally:
 
     while True:
         up = input(f"\nUp Journey Time? ")
-        up_index = int(up)-1
-        if up_index <= 3 and up_seats[up_index] - up_tally[up_index] >= num_passengers: # Range check
-            up_tally[up_index] += num_passengers
+        if up.isnumeric() and 0 <= int(up)-1 <= 3 and up_seats[int(up)-1] - up_tally[int(up)-1] >= num_passengers: # type check: isnumeric, range check: accurate choice, range check: enough seats
+            up_tally[int(up)-1] += num_passengers
             calculate_revenue(up, num_passengers, up_revenue)
-        else: 
-            print("Sorry invalid choice or not enough seats")
-            continue
-
-        down = input(f"Down Journey Time? ")
-        down_index = int(down) - 1 
-        if down_index <= 3 and down_seats[down_index] - down_tally[down_index] >= num_passengers:
-            down_tally[down_index] += num_passengers
-            calculate_revenue(down, num_passengers, down_revenue)
             break
         else: 
             print("Sorry invalid choice or not enough seats")
-            continue
+
+    while True:
+        down = input(f"Down Journey Time? ")
+        if down.isnumeric() and int(up)-1 <= int(down)-1 <= 3 and down_seats[int(down)-1] - down_tally[int(down)-1] >= num_passengers:
+            # format check + presence check with isnumeric, range check to see if their down time is after their uptime but still in acceptable choices (acts as a lookup check also), range check see if there are enough seats
+            down_tally[int(down)-1] += num_passengers
+            calculate_revenue(down, num_passengers, down_revenue)
+            break
+        else: 
+            print("Sorry invalid choice / you chose a time before your up journey or not enough seats")
     
-    screenDisplay() 
+    print("\nJourney Up")
+    screenDisplay(up_seats, up_tally, up_times)
+    print("\nJourney Down")
+    screenDisplay(down_seats, down_tally, down_times)
+
     booking = input("\nCreate another booking? Type n to stop, anything else to continue ")
+
     if booking.lower() == 'n':
         break
 
@@ -84,7 +81,7 @@ for i in range(0,4):
         if up_tally[i] > max_passengers:
             max_passengers = up_tally[i]
             max_time = up_times[i]
-            
+
 print("\nJourney Down")
 for i in range(0,4):
         print(f"{i+1}. {down_times[i]} - {down_tally[i]} passengers - ${down_revenue[i]} made")
@@ -93,8 +90,7 @@ for i in range(0,4):
             max_time = down_times[i]
 
 total_revenue = 0
-combined_revenue = up_revenue + down_revenue
-for i in combined_revenue:
-    total_revenue += i
+for i in range(0,4):
+    total_revenue = total_revenue + up_revenue[i] + down_revenue[i]
 
 print(f"\n${total_revenue} total revenue, {total_passengers} total passengers, {max_time} had the most passengers, with {max_passengers} passengers")
